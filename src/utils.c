@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:56:35 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/22 17:39:32 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:32:39 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,27 @@ void	my_usleep(long long time_in_ms)
 
 	while ((get_time() - start_time) < time_in_ms)
 		usleep(100);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int	n;
+	int	sign;
+
+	sign = 1;
+	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
+	{
+		if (*nptr == '-')
+			sign = -1;
+		nptr++;
+	}
+	n = 0;
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+			n = n * 10 + *nptr - '0';
+			nptr++;
+	}
+	return (n * sign);
 }

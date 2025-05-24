@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:21:04 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/23 17:00:30 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:47:24 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_program
 bool		check_args(int ac, char **av);
 void		*routine(void *arg);
 void		p_eat(t_philo *philo);
-void		init_struct(int ac, char **av);
+void		init_struct(int ac, char **av, t_philo *philo);
 void		create_threads(t_program *program);
 void		my_usleep(long long time_in_ms);
 long long	get_time(void);
