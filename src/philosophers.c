@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:15:48 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/24 18:49:54 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:40:32 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,25 @@ void	create_threads(t_program *program)
 		pthread_join(program->philos[i].thread, NULL);
 		i++;
 	}
+}
+
+void	create_forks(t_philo *philo)
+{
+	int	i;
+	pthread_mutex_t	*fork_array;
+	
+	fork_array = malloc(sizeof(pthread_mutex_t) * philo[0].num_of_philos);
+	if (!fork_array)
+	{
+		perror("Failed to allocate memory for forks");
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < philo->num_of_philos)
+	{
+		if (pthread_mutex_init(&philo->forks[i], NULL))
+			return (1); // handle error
+		i++;
+	}
+	return (0);
 }
