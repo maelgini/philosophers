@@ -6,27 +6,11 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:56:35 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/25 19:07:54 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:03:05 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
-
-long long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000));
-}
-
-void	my_usleep(long long time_in_ms)
-{
-	long long	start_time = get_time();
-
-	while ((get_time() - start_time) < time_in_ms)
-		usleep(100);
-}
 
 int	ft_atoi(const char *nptr)
 {
@@ -49,4 +33,16 @@ int	ft_atoi(const char *nptr)
 			nptr++;
 	}
 	return (n * sign);
+}
+
+void	free_philos(t_philo *philos, int num_philos)
+{
+	int i;
+
+	for (i = 0; i < num_philos; i++)
+	{
+		pthread_mutex_destroy(&philos[i].r_fork);
+		pthread_mutex_destroy(&philos[i].l_fork);
+	}
+	free(philos);
 }

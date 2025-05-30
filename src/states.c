@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:18:44 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/27 16:45:54 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:03:03 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	status_msg(t_philo *philo, const char *msg)
 void	p_eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->r_fork);
-	if (philo->num_of_philos == 1)
+	if (philo->num_philos == 1)
 	{
 		status_msg(philo, MSG_FORK);
 		my_usleep(philo->time_to_die + 1);

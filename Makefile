@@ -7,7 +7,8 @@ LIBFT		=	$(LIBFT_DIR)/libft.a
 
 SRC_DIR		=	src
 
-SRCS		=	$(SRC_DIR)/philosophers.c $(SRC_DIR)/utils.c $(SRC_DIR)/main.c
+SRCS		=	src/threads.c src/utils.c src/main.c src/states.c src/routine.c \
+				src/parsing.c src/forks.c src/time.c \
 
 OBJS		=	$(SRCS:.c=.o)
 
