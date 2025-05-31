@@ -6,12 +6,13 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:56:35 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/30 21:03:05 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:32:35 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
+//Array to integer conversion function to extract arguments from command line
 int	ft_atoi(const char *nptr)
 {
 	int	n;
@@ -35,6 +36,7 @@ int	ft_atoi(const char *nptr)
 	return (n * sign);
 }
 
+//Returns allocated memory for philosophers
 void	free_philos(t_philo *philos, int num_philos)
 {
 	int i;

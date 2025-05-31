@@ -6,12 +6,13 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 19:39:45 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/25 18:10:53 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:35:04 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
+// Argument names for error messages
 static const char	*get_arg_name(int index)
 {
 	const char	*arg_names[] = {
@@ -20,12 +21,13 @@ static const char	*get_arg_name(int index)
 		ARG_TIME_DIE,
 		ARG_TIME_EAT,
 		ARG_TIME_SLEEP,
-		ARG_NB_EAT_OPTIONAL
+		ARG_NB_MEALS
 	};
 
 	return (arg_names[index]);
 }
 
+// Check if the string represents a valid number
 bool	is_number(char *str)
 {
 	int	i;
@@ -42,6 +44,7 @@ bool	is_number(char *str)
 	return (true);
 }
 
+// Validate if the argument is a number and within the specified range
 static bool	validate_arg(char *arg, int i, int ac)
 {
 	int	value;
@@ -62,6 +65,8 @@ static bool	validate_arg(char *arg, int i, int ac)
 	return (true);
 }
 
+
+// Check if the number of arguments is correct and validate each argument
 bool	check_args(int ac, char **av)
 {
 	int	i;

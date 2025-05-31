@@ -6,12 +6,13 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 20:37:41 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/30 20:37:47 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:27:57 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
+// Get the current time in milliseconds
 long long	get_time(void)
 {
 	struct timeval	tv;
@@ -20,6 +21,7 @@ long long	get_time(void)
 	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000));
 }
 
+// Sleep for a specified time in milliseconds
 void	my_usleep(long long time_in_ms)
 {
 	long long	start_time = get_time();

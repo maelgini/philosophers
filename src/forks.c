@@ -6,12 +6,13 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:28:41 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/30 21:03:02 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:25:51 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
+//Initialize mutexes for forks
 void	create_forks(t_philo *philo, t_program *program)
 {
 	int	i;
@@ -34,6 +35,7 @@ void	create_forks(t_philo *philo, t_program *program)
 	}
 }
 
+//Assigns left and right forks to each philosopher
 void	setup_forks(t_philo *philo, t_program *program)
 {
 	int	i;

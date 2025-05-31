@@ -6,12 +6,13 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:18:44 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/30 21:03:03 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:27:04 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
+// Print a status message with the philosopher's ID and the message
 void	status_msg(t_philo *philo, const char *msg)
 {
 	pthread_mutex_lock(philo->write_lock);
@@ -19,6 +20,7 @@ void	status_msg(t_philo *philo, const char *msg)
 	pthread_mutex_unlock(philo->write_lock);
 }
 
+// Philosopher eats, locks the right and left forks, updates meal count and time
 void	p_eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->r_fork);
@@ -44,12 +46,14 @@ void	p_eat(t_philo *philo)
 	pthread_mutex_unlock(philo->meal_lock);
 }
 
+// Philosopher sleeps, prints sleep message, and sleeps for the specified time
 void	p_sleep(t_philo *philo)
 {
 	status_msg(philo, MSG_SLEEP);
 	my_usleep(philo->time_to_sleep);
 }
 
+// Philosopher thinks, prints think message
 void	p_think(t_philo *philo)
 {
 	status_msg(philo, MSG_THINK);

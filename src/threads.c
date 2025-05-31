@@ -6,13 +6,13 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:15:48 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/30 21:10:05 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:33:35 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-//Initialize arguments
+//Fills the philosopher structure with input values
 void	init_input(int ac, char **av, t_philo *philo)
 {
 	philo->num_philos = ft_atoi(av[1]);
@@ -25,6 +25,7 @@ void	init_input(int ac, char **av, t_philo *philo)
 		philo->num_meals = -1;
 }
 
+// Initializes the philosopher structure with default values
 void	init_struct(t_program *program, t_philo *philo)
 {
 	int	i;
@@ -32,6 +33,7 @@ void	init_struct(t_program *program, t_philo *philo)
 	i = 0;
 	while (i < philo->num_philos)
 	{
+		program->philos[i].program = program;
 		program->philos[i].id = i + 1;
 		program->philos[i].eating = 0;
 		program->philos[i].meals_eaten = 0;
@@ -49,6 +51,7 @@ void	init_struct(t_program *program, t_philo *philo)
 	}
 }
 
+// Creates threads for each philosopher and waits for them to finish
 void	create_threads(t_program *program)
 {
 	int	i;
