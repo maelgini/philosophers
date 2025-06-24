@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:56:35 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/31 16:32:35 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:44:46 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	free_philos(t_philo *philos, int num_philos)
 
 	for (i = 0; i < num_philos; i++)
 	{
-		pthread_mutex_destroy(&philos[i].r_fork);
-		pthread_mutex_destroy(&philos[i].l_fork);
+		pthread_mutex_destroy(philos[i].r_fork);
+		pthread_mutex_destroy(philos[i].l_fork);
 	}
 	free(philos);
 }

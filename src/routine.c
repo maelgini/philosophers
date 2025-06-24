@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:30:30 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/31 17:50:00 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:43:25 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,13 @@ int	sim_stop(t_program *program)
 }
 
 // Main routine for each philosopher
-void	routine(t_philo *philo, t_program *program)
+void	*routine(void *arg)
 {
+	t_philo	*philo;
+	t_program	*program;
+
+	philo = (t_philo *)arg;
+	program = philo->program;
 	while (!sim_stop(program))
 	{
 		if (sim_stop(program))
@@ -64,7 +69,7 @@ int	all_philos_ate_enough(t_program *program, t_philo *philo)
 //Monitor thread that checks if a philosopher has died or if all have eaten enough
 void	*monitor_routine(t_program *program, t_philo *philo)
 {
-	int		i;
+	int	i;
 
 	while (1)
 	{

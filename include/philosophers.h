@@ -6,15 +6,13 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:21:04 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/31 16:54:14 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:00:57 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-
-# include "../libft/libft.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -37,8 +35,12 @@
 # define MSG_FORK		"has taken a fork"
 # define MSG_DEAD		"died"
 
+typedef struct s_philo t_philo;
+typedef struct s_program t_program;
+
+
 //Structure of variables shared between philosophers and the main program
-typedef struct s_philo
+struct s_philo
 {
 	pthread_t		thread;
 	int				id;
@@ -58,10 +60,10 @@ typedef struct s_philo
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
 	t_program		*program;
-}					t_philo;
+};
 
 //Structure of the main program, containing all philosophers and mutexes
-typedef struct s_program
+struct s_program
 {
 	int				stop_flag;
 	int				dead_flag;
@@ -71,7 +73,7 @@ typedef struct s_program
 	pthread_mutex_t	sim_lock;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
-}					t_program;
+};
 
 //forks.c
 void		create_forks(t_philo *philo, t_program *program);
@@ -81,14 +83,16 @@ void		setup_forks(t_philo *philo, t_program *program);
 bool		check_args(int ac, char **av);
 
 //routine.c
-void		routine(t_philo *philo, t_program *program);
+void		*routine(void *arg);
 
 //states.c
+void		status_msg(t_philo *philo, const char *msg);
 void		p_eat(t_philo *philo);
 void		p_sleep(t_philo *philo);
 void		p_think(t_philo *philo);
 
 //threads.c
+void		init_input(int ac, char **av, t_philo *philo);
 void		init_struct(t_program *program, t_philo *philo);
 void		create_threads(t_program *program);
 

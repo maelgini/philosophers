@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:15:48 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/31 17:33:35 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:34:12 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void	init_struct(t_program *program, t_philo *philo)
 	int	i;
 	
 	i = 0;
+	program->philos = malloc(sizeof(t_philo) * philo->num_philos);
+	if (!program->philos)
+		return ;
 	while (i < philo->num_philos)
 	{
 		program->philos[i].program = program;
