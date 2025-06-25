@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:56:35 by maelgini          #+#    #+#             */
-/*   Updated: 2025/06/24 17:44:46 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:59:33 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,27 @@ int	ft_atoi(const char *nptr)
 	return (n * sign);
 }
 
-//Returns allocated memory for philosophers
-void	free_philos(t_philo *philos, int num_philos)
+void free_program(t_program *program)
 {
 	int i;
-
-	for (i = 0; i < num_philos; i++)
+	
+	i = 0;
+	if (!program)
+		return;
+	if (program->forks)
 	{
-		pthread_mutex_destroy(philos[i].r_fork);
-		pthread_mutex_destroy(philos[i].l_fork);
+		while (i < program->num_philos)
+		{
+			pthread_mutex_destroy(&program->forks[i]);
+			i++;
+		}
+		free(program->forks);
 	}
-	free(philos);
+	pthread_mutex_destroy(&program->dead_lock);
+	pthread_mutex_destroy(&program->meal_lock);
+	pthread_mutex_destroy(&program->write_lock);
+	pthread_mutex_destroy(&program->sim_lock);
+	if (program->philos)
+		free(program->philos);
+	free(program);
 }

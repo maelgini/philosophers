@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:21:04 by maelgini          #+#    #+#             */
-/*   Updated: 2025/06/24 18:00:57 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:06:57 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,20 @@ struct s_philo
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	size_t			start_time;
-	int				num_philos;
 	int				num_meals;
-	int				*dead;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*write_lock;
-	pthread_mutex_t	*dead_lock;
-	pthread_mutex_t	*meal_lock;
+	int 			left_fork_id;
+	int				right_fork_id;
 	t_program		*program;
 };
 
 //Structure of the main program, containing all philosophers and mutexes
 struct s_program
 {
+	int				num_philos;
+	int				num_meals;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
 	int				stop_flag;
 	int				dead_flag;
 	pthread_mutex_t	dead_lock;
@@ -76,24 +76,27 @@ struct s_program
 };
 
 //forks.c
-void		create_forks(t_philo *philo, t_program *program);
-void		setup_forks(t_philo *philo, t_program *program);
+void		create_forks(t_program *program);
+void		setup_forks(t_program *program);
 
 //parsing.c
 bool		check_args(int ac, char **av);
 
 //routine.c
+int			sim_stop(t_program *program);
 void		*routine(void *arg);
+void		*monitor_routine(void *arg);
 
 //states.c
-void		status_msg(t_philo *philo, const char *msg);
+void		status_msg(t_program *program, t_philo *philo, char *msg);
 void		p_eat(t_philo *philo);
 void		p_sleep(t_philo *philo);
 void		p_think(t_philo *philo);
 
 //threads.c
-void		init_input(int ac, char **av, t_philo *philo);
-void		init_struct(t_program *program, t_philo *philo);
+void		init_mutexes(t_program *program);
+void		init_input(int ac, char **av, t_program *program);
+void 		init_struct(t_program *program);
 void		create_threads(t_program *program);
 
 //time.c

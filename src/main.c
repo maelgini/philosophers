@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:08:33 by maelgini          #+#    #+#             */
-/*   Updated: 2025/06/24 18:36:50 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:08:00 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,18 @@ int	main(int ac, char **av)
 	printf("IN CHECK_ARGS\n");
 	check_args(ac, av);
 	printf("IN INIT_INPUT\n");
-	init_input(ac, av, philo);
+	init_input(ac, av, program);
+	printf("IN INIT_MUTEXES\n");
+	init_mutexes(program);
 	printf("IN INIT_STRUCT\n");
-	init_struct(program, philo);
+	init_struct(program);
 	printf("IN CREATE_FORKS\n");
-	create_forks(philo, program);
+	create_forks(program);
 	printf("IN SETUP_FORKS\n");
-	create_threads(program);
-	printf("IN SETUP_FORKS\n");
-	setup_forks(philo, program);
+	setup_forks(program);
 	printf("IN CREATE_THREADS\n");
-	routine(philo);
+	create_threads(program);
 	printf("IN ROUTINE\n");
+	routine(philo);
 	return (0);
 }
