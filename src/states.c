@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:18:44 by maelgini          #+#    #+#             */
-/*   Updated: 2025/06/25 16:28:17 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:27:46 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	status_msg(t_program *program, t_philo *philo, char *msg)
 {
 	pthread_mutex_lock(&program->write_lock);
-	printf("%llu %d %s\n", get_time() - philo->start_time, philo->id, msg);
+	printf("philo id=%d msg=%s\n", philo->id, msg);
 	pthread_mutex_unlock(&program->write_lock);
 }
 

@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:30:30 by maelgini          #+#    #+#             */
-/*   Updated: 2025/06/25 17:04:39 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:39:18 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,18 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	program = philo->program;
-	printf("IN THREAD %d\n", philo->id);
+	// if (!philo)
+	// {
+	// 	printf("Error: routine received NULL philo\n");
+	// 	return NULL;
+	// }
+	// program = philo->program;
+	// if (!program)
+	// {
+	// 	printf("Error: philo->program is NULL (philo id = %d)\n", philo->id);
+	// 	return NULL;
+	// }
+	printf("Routine start: philo=%p, program=%p\n", philo, philo->program);
 	while (!sim_stop(program))
 	{
 		if (sim_stop(program))
@@ -74,11 +85,18 @@ void	*monitor_routine(void *arg)
 	int	i;
 	
 	program = (t_program *)arg;
+	// if (!program)
+    // {
+    //     printf("Error: monitor_routine received NULL program\n");
+    //     pthread_exit(NULL);
+    // }
+    // printf("Monitor routine started with program = %p\n", program);
 	while (1)
 	{
 		i = 0;
 		while (i < program->num_philos)
 		{
+			// printf("IN THREAD %d\n", program->philos[i].id);
 			pthread_mutex_lock(&program->meal_lock);
 			if (!program->philos[i].eating && 
 				(get_time() - program->philos[i].last_meal > program->philos[i].time_to_die))
@@ -100,5 +118,6 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&program->dead_lock);
 			return (NULL);
 		}
+		usleep(1000);
 	}
 }

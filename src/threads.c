@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:15:48 by maelgini          #+#    #+#             */
-/*   Updated: 2025/06/25 16:57:06 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:41:59 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_mutexes(t_program *program)
 	pthread_mutex_init(&program->meal_lock, NULL);
 	pthread_mutex_init(&program->dead_lock, NULL);
 	pthread_mutex_init(&program->write_lock, NULL);
+	pthread_mutex_init(&program->sim_lock, NULL);
 }
 
 // Fills the philosopher structure with input values
@@ -39,19 +40,24 @@ void init_struct(t_program *program)
 	int i;
 
 	program->philos = malloc(sizeof(t_philo) * program->num_philos);
-	if (!program->philos)
-	{
-		printf("PHILOS MALLOC FAILED\n");
-		exit(1);
-	}
+	// if (!program->philos)
+	// {
+	// 	printf("PHILOS MALLOC FAILED\n");
+	// 	exit(1);
+	// }
 	i = 0;
 	while (i < program->num_philos)
 	{
+		program->philos[i].time_to_die = program->time_to_die;
+		program->philos[i].time_to_eat = program->time_to_eat;
+		program->philos[i].time_to_sleep = program->time_to_sleep;
 		program->philos[i].program = program;
+		printf("init_struct: philos[%d].program = %p\n", i, program->philos[i].program);
 		program->philos[i].id = i + 1;
 		program->philos[i].eating = 0;
 		program->philos[i].meals_eaten = 0;
 		program->philos[i].start_time = get_time();
+		printf("init_struct: philos[%d].start_time = %llu\n", i, program->philos[i].start_time);
 		program->philos[i].last_meal = program->philos[i].start_time;
 		i++;
 	}
@@ -67,14 +73,15 @@ void create_threads(t_program *program)
 	i = 0;
 	while (i < program->num_philos)
 	{
+		// printf("Creating thread for philo %d at %p (program = %p)\n", i + 1, &program->philos[i], program->philos[i].program);
 		pthread_create(&program->philos[i].thread, NULL, routine, &program->philos[i]);
 		i++;
 	}
+	pthread_join(monitor, NULL);
 	i = 0;
 	while (i < program->num_philos)
 	{
 		pthread_join(program->philos[i].thread, NULL);
 		i++;
 	}
-	pthread_join(monitor, NULL);
 }

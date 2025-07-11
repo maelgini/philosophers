@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:21:04 by maelgini          #+#    #+#             */
-/*   Updated: 2025/06/25 17:06:57 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:30:21 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ struct s_philo
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	size_t			start_time;
+	long long		start_time;
 	int				num_meals;
-	int 			left_fork_id;
+	int				left_fork_id;
 	int				right_fork_id;
 	t_program		*program;
 };

@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:28:41 by maelgini          #+#    #+#             */
-/*   Updated: 2025/06/25 17:10:39 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:57:07 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	setup_forks(t_program *program)
 	i = 0;
 	while (i < program->num_philos)
 	{
-		program->philos[i].left_fork_id = &program->forks[i];
-		program->philos[i].right_fork_id = &program->forks[(i + 1) % program->num_philos];
+		program->philos[i].left_fork_id = i;
+		program->philos[i].right_fork_id = (i + 1) % program->num_philos;
 		i++;
 	}
 }
