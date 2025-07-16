@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:15:48 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/11 17:41:59 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:00:32 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,20 @@ void init_struct(t_program *program)
 	// 	exit(1);
 	// }
 	i = 0;
+	long long start_time = get_time()+1000;
+	
 	while (i < program->num_philos)
 	{
 		program->philos[i].time_to_die = program->time_to_die;
 		program->philos[i].time_to_eat = program->time_to_eat;
 		program->philos[i].time_to_sleep = program->time_to_sleep;
 		program->philos[i].program = program;
-		printf("init_struct: philos[%d].program = %p\n", i, program->philos[i].program);
+		// printf("init_struct: philos[%d].program = %p\n", i, program->philos[i].program);
 		program->philos[i].id = i + 1;
 		program->philos[i].eating = 0;
 		program->philos[i].meals_eaten = 0;
-		program->philos[i].start_time = get_time();
-		printf("init_struct: philos[%d].start_time = %llu\n", i, program->philos[i].start_time);
+		program->philos[i].start_time = start_time;
+		// printf("init_struct: philos[%d].start_time = %llu\n", i, program->philos[i].start_time);
 		program->philos[i].last_meal = program->philos[i].start_time;
 		i++;
 	}
@@ -66,10 +68,9 @@ void init_struct(t_program *program)
 // Creates threads for each philosopher and waits for them to finish
 void create_threads(t_program *program)
 {
-	pthread_t monitor;
 	int i;
 	
-	pthread_create(&monitor, NULL, monitor_routine, program);
+	pthread_create(&program->monitor_thread, NULL, monitor_routine, program);
 	i = 0;
 	while (i < program->num_philos)
 	{
@@ -77,7 +78,13 @@ void create_threads(t_program *program)
 		pthread_create(&program->philos[i].thread, NULL, routine, &program->philos[i]);
 		i++;
 	}
-	pthread_join(monitor, NULL);
+}
+
+void	join_threads(t_program *program)
+{	
+	int i;
+	
+	pthread_join(program->monitor_thread, NULL);
 	i = 0;
 	while (i < program->num_philos)
 	{

@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:21:04 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/11 17:30:21 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:21:59 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@
 # define MSG_FORK		"has taken a fork"
 # define MSG_DEAD		"died"
 
+#define RED				"\033[0;31m"
+#define GREEN			"\033[0;32m"
+#define YELLOW			"\033[0;33m"
+#define BLUE			"\033[0;34m"
+#define MAGENTA 		"\033[0;35m"
+#define CYAN			"\033[0;36m"
+#define WHITE			"\033[0;37m"
+#define RESET			"\033[0m"
+
 typedef struct s_philo t_philo;
 typedef struct s_program t_program;
 
@@ -60,6 +69,7 @@ struct s_philo
 //Structure of the main program, containing all philosophers and mutexes
 struct s_program
 {
+	pthread_t		monitor_thread;
 	int				num_philos;
 	int				num_meals;
 	size_t			time_to_die;
@@ -84,11 +94,12 @@ bool		check_args(int ac, char **av);
 
 //routine.c
 int			sim_stop(t_program *program);
+void		sync_start(long long start, t_philo *philo);
 void		*routine(void *arg);
 void		*monitor_routine(void *arg);
 
 //states.c
-void		status_msg(t_program *program, t_philo *philo, char *msg);
+void		status_msg(t_program *program, t_philo *philo, char *msg, char *color);
 void		p_eat(t_philo *philo);
 void		p_sleep(t_philo *philo);
 void		p_think(t_philo *philo);
@@ -98,6 +109,7 @@ void		init_mutexes(t_program *program);
 void		init_input(int ac, char **av, t_program *program);
 void 		init_struct(t_program *program);
 void		create_threads(t_program *program);
+void		join_threads(t_program *program);
 
 //time.c
 void		my_usleep(long long time_in_ms);
@@ -106,5 +118,6 @@ long long	get_time(void);
 //utils.c
 void		free_philos(t_philo *philos, int num_philos);
 int			ft_atoi(const char *nptr);
+void 		free_program(t_program *program);
 
 #endif

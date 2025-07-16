@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:30:30 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/11 17:39:18 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:39:47 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,28 @@ int	sim_stop(t_program *program)
 	stop = program->stop_flag;
 	pthread_mutex_unlock(&program->dead_lock);
 	return (stop);
+}
+
+void	sync_start(long long start, t_philo *philo)
+{
+	long long	now;
+	long long	time;
+	long long	delay;
+	
+	now = get_time();
+	time = start - now;
+	delay = philo->time_to_eat / (philo->program->num_philos - 1);
+	if (philo->program->num_philos % 2)
+	{
+		time += delay * (philo->id);
+		if (philo->id % 2)
+			time += philo->time_to_eat - 100;
+	}
+	else if (philo->id % 2)
+	{
+		time += philo->time_to_eat;
+		my_usleep(time);
+	}
 }
 
 // Main routine for each philosopher
@@ -42,11 +64,15 @@ void	*routine(void *arg)
 	// 	printf("Error: philo->program is NULL (philo id = %d)\n", philo->id);
 	// 	return NULL;
 	// }
-	printf("Routine start: philo=%p, program=%p\n", philo, philo->program);
+	// printf("Routine start: philo=%p, program=%p\n", philo, philo->program);
+	//attendre tout pour avoir depasser start_time
+	while (get_time() < philo->start_time)
+	{
+		sync_start(program->philos->start_time, program->philos);
+		usleep(100);
+	}
 	while (!sim_stop(program))
 	{
-		if (sim_stop(program))
-			break;
 		p_eat(philo);
 		if (sim_stop(program))
 			break;
@@ -54,6 +80,7 @@ void	*routine(void *arg)
 		if (sim_stop(program))
 			break;
 		p_think(philo);
+		my_usleep(100);
 	}
 	return (NULL);
 }
@@ -62,17 +89,18 @@ void	*routine(void *arg)
 int	all_philos_ate_enough(t_program *program)
 {
 	int	i;
+	int	meals;
 
+	if (program->num_meals <= 0)
+		return (0);
 	i = 0;
 	while (i < program->num_philos)
 	{
 		pthread_mutex_lock(&program->meal_lock);
-		if (program->philos[i].meals_eaten < program->num_meals)
-		{
-			pthread_mutex_unlock(&program->meal_lock);
-			return (0);
-		}
+		meals = program->philos[i].meals_eaten;
 		pthread_mutex_unlock(&program->meal_lock);
+		if (meals < program->num_meals)
+			return (0);
 		i++;
 	}
 	return (1);
@@ -86,29 +114,39 @@ void	*monitor_routine(void *arg)
 	
 	program = (t_program *)arg;
 	// if (!program)
-    // {
-    //     printf("Error: monitor_routine received NULL program\n");
-    //     pthread_exit(NULL);
-    // }
-    // printf("Monitor routine started with program = %p\n", program);
+	// {
+	//     printf("Error: monitor_routine received NULL program\n");
+	//     pthread_exit(NULL);
+	// }
+	// printf("Monitor routine started with program = %p\n", program);
+	while (get_time() < program->philos[0].start_time)
+	{
+		usleep(100);
+	}
 	while (1)
 	{
 		i = 0;
 		while (i < program->num_philos)
 		{
-			// printf("IN THREAD %d\n", program->philos[i].id);
 			pthread_mutex_lock(&program->meal_lock);
-			if (!program->philos[i].eating && 
-				(get_time() - program->philos[i].last_meal > program->philos[i].time_to_die))
+			size_t last_meal = program->philos[i].last_meal;
+			int eating = program->philos[i].eating;
+			pthread_mutex_unlock(&program->meal_lock);
+
+			size_t now = get_time();
+			size_t diff = now - last_meal;
+
+			// printf("philo[%d] last_meal = %zu, now = %zu, diff = %zu\n",
+			// program->philos[i].id, last_meal, now, diff);
+
+			if (!eating && diff > program->philos[i].time_to_die)
 			{
 				pthread_mutex_lock(&program->dead_lock);
 				program->stop_flag = 1;
 				pthread_mutex_unlock(&program->dead_lock);
-				status_msg(program, &program->philos[i], "died");
-				pthread_mutex_unlock(&program->meal_lock);
+				status_msg(program, &program->philos[i], MSG_DEAD, RESET);
 				return (NULL);
 			}
-			pthread_mutex_unlock(&program->meal_lock);
 			i++;
 		}
 		if (all_philos_ate_enough(program))
@@ -118,6 +156,6 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&program->dead_lock);
 			return (NULL);
 		}
-		usleep(1000);
+		usleep(10); // Sleep for a short time to avoid busy waiting
 	}
 }
