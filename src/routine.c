@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:30:30 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/18 14:47:31 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 15:49:01 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	sim_stop(t_program *program)
 	return (stop);
 }
 
+// Synchronize the start time for all philosophers
 void	sync_start(long long start, t_philo *philo)
 {
 	long long	now;
@@ -73,6 +74,7 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+// small routine for the 1-philosopher case
 void	lone_philo_case(t_program *program)
 {
 	if (program->num_philos == 1)
@@ -107,23 +109,15 @@ int	all_philos_ate_enough(t_program *program)
 	return (1);
 }
 
-//Monitor thread that checks if a philosopher has died or if all have eaten enough
+//Monitor thread that checks cases that should stop the simulation
 void	*monitor_routine(void *arg)
 {
+	int			i;
 	t_program	*program;
-	int	i;
 	
 	program = (t_program *)arg;
-	// if (!program)
-	// {
-	//     printf("Error: monitor_routine received NULL program\n");
-	//     pthread_exit(NULL);
-	// }
-	// printf("Monitor routine started with program = %p\n", program);
 	while (get_time() < program->philos[0].start_time)
-	{
 		usleep(100);
-	}
 	while (1)
 	{
 		i = 0;
@@ -133,13 +127,8 @@ void	*monitor_routine(void *arg)
 			size_t last_meal = program->philos[i].last_meal;
 			int eating = program->philos[i].eating;
 			pthread_mutex_unlock(&program->meal_lock);
-
 			size_t now = get_time();
 			size_t diff = now - last_meal;
-
-			// printf("philo[%d] last_meal = %zu, now = %zu, diff = %zu\n",
-			// program->philos[i].id, last_meal, now, diff);
-
 			if (!eating && diff > program->philos[i].time_to_die)
 			{
 				pthread_mutex_lock(&program->dead_lock);
@@ -157,6 +146,6 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&program->dead_lock);
 			return (NULL);
 		}
-		usleep(10); // Sleep for a short time to avoid busy waiting
+		usleep(10);
 	}
 }

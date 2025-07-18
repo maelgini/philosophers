@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 20:37:41 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/31 16:27:57 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 15:57:26 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ long long	get_time(void)
 // Sleep for a specified time in milliseconds
 void	my_usleep(long long time_in_ms)
 {
-	long long	start_time = get_time();
-
+	long long	start_time;
+	
+	start_time = get_time();
 	while ((get_time() - start_time) < time_in_ms)
 		usleep(100);
 }

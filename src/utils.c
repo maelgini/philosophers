@@ -6,30 +6,30 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:56:35 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/18 15:25:36 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 15:58:40 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	size_t			total;
-	size_t			i;
-	unsigned char	*ptr;
+// may use this later
+// void	*ft_calloc(size_t nmemb, size_t size)
+// {
+// 	size_t			total;
+// 	size_t			i;
+// 	unsigned char	*ptr;
 
-	total = nmemb * size;
-	if (nmemb != 0 && total / nmemb != size)
-		return (NULL); // protection overflow
-	ptr = malloc(total);
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (i < total)
-		ptr[i++] = 0;
-	return ((void *)ptr);
-}
-
+// 	total = nmemb * size;
+// 	if (nmemb != 0 && total / nmemb != size)
+// 		return (NULL); // protection overflow
+// 	ptr = malloc(total);
+// 	if (!ptr)
+// 		return (NULL);
+// 	i = 0;
+// 	while (i < total)
+// 		ptr[i++] = 0;
+// 	return ((void *)ptr);
+// }
 
 //Array to integer conversion function to extract arguments from command line
 int	ft_atoi(const char *nptr)
@@ -55,6 +55,7 @@ int	ft_atoi(const char *nptr)
 	return (n * sign);
 }
 
+// launches the 1-philosopher case
 bool	handle_lone_philo(t_program *program)
 {
 	if (program->num_philos == 1)
@@ -67,6 +68,7 @@ bool	handle_lone_philo(t_program *program)
 	return (false);
 }
 
+// Frees the allocated memory for philosophers and destroys mutexes
 void free_program(t_program *program)
 {
 	int i;

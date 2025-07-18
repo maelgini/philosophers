@@ -6,18 +6,16 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:18:44 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/18 15:05:23 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 15:56:48 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 #include <string.h>
 
-// Print a status message with the philosopher's ID and the message
+// Print a status message with the philosopher's ID and the macroed message
 void	status_msg(t_program *program, t_philo *philo, char *msg, char *color)
 {
-	// printf("DEBUG: philo->start_time=%llu, get_time()=%llu, philo->id=%d\n",
-	// philo->start_time, get_time(), philo->id);
 	pthread_mutex_lock(&program->dead_lock);
 	if (strcmp(msg, MSG_DEAD) == 0)
 	{
@@ -41,12 +39,15 @@ void	p_eat(t_philo *philo)
 
 	if (sim_stop(program))
 		return ;
-	// printf("Philo %d → left=%d, right=%d\n", philo->id, philo->left_fork_id, philo->right_fork_id);
-	int first_fork = philo->left_fork_id;
-	int second_fork = philo->right_fork_id;
+	int	first_fork;
+	int	second_fork;
+	int	tmp;
+
+	second_fork = philo->right_fork_id;
+	first_fork = philo->left_fork_id;
 	if (first_fork > second_fork)
 	{
-		int tmp = first_fork;
+		tmp = first_fork;
 		first_fork = second_fork;
 		second_fork = tmp;
 	}
@@ -60,7 +61,6 @@ void	p_eat(t_philo *philo)
 	pthread_mutex_unlock(&program->meal_lock);
 	status_msg(program, philo, MSG_FORK, WHITE);
 	status_msg(program, philo, MSG_EAT, RED);
-
 	my_usleep(philo->time_to_eat);
 	pthread_mutex_unlock(&program->forks[second_fork]);
 	pthread_mutex_unlock(&program->forks[first_fork]);
