@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:15:48 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/16 15:00:32 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 14:37:03 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,10 @@ void init_struct(t_program *program)
 	int i;
 
 	program->philos = malloc(sizeof(t_philo) * program->num_philos);
-	// if (!program->philos)
-	// {
-	// 	printf("PHILOS MALLOC FAILED\n");
-	// 	exit(1);
-	// }
+
 	i = 0;
 	long long start_time = get_time()+1000;
-	
+	program->stop_flag = 0;
 	while (i < program->num_philos)
 	{
 		program->philos[i].time_to_die = program->time_to_die;

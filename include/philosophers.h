@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:21:04 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/16 14:21:59 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 14:26:37 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <stdarg.h>
+# include <stddef.h>
 
 //Argument names for error messages
 # define ARG_NB_PHILO		"number_of_philosophers"
@@ -97,6 +98,7 @@ int			sim_stop(t_program *program);
 void		sync_start(long long start, t_philo *philo);
 void		*routine(void *arg);
 void		*monitor_routine(void *arg);
+void		lone_philo_case(t_program *program);
 
 //states.c
 void		status_msg(t_program *program, t_philo *philo, char *msg, char *color);
@@ -119,5 +121,6 @@ long long	get_time(void);
 void		free_philos(t_philo *philos, int num_philos);
 int			ft_atoi(const char *nptr);
 void 		free_program(t_program *program);
+bool		handle_lone_philo(t_program *program);
 
 #endif

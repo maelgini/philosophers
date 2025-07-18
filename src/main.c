@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:08:33 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/16 14:32:03 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 14:07:20 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,17 @@ int	main(int ac, char **av)
 	program = malloc(sizeof(t_program));
 	if (!program)
 		return (1);
-	check_args(ac, av);
+	if (!check_args(ac, av))
+	{
+		free(program);
+		return (1);
+	}
 	init_input(ac, av, program);
 	init_mutexes(program);
 	pthread_mutex_lock(&program->sim_lock);
 	init_struct(program);
+	if (handle_lone_philo(program))
+		exit (0);
 	create_forks(program);
 	setup_forks(program);
 	create_threads(program);

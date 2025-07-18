@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:30:30 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/16 14:39:47 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 14:47:31 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	program = philo->program;
-	// if (!philo)
-	// {
-	// 	printf("Error: routine received NULL philo\n");
-	// 	return NULL;
-	// }
-	// program = philo->program;
-	// if (!program)
-	// {
-	// 	printf("Error: philo->program is NULL (philo id = %d)\n", philo->id);
-	// 	return NULL;
-	// }
-	// printf("Routine start: philo=%p, program=%p\n", philo, philo->program);
-	//attendre tout pour avoir depasser start_time
+
 	while (get_time() < philo->start_time)
 	{
 		sync_start(program->philos->start_time, program->philos);
@@ -83,6 +71,19 @@ void	*routine(void *arg)
 		my_usleep(100);
 	}
 	return (NULL);
+}
+
+void	lone_philo_case(t_program *program)
+{
+	if (program->num_philos == 1)
+	{
+		program->philos->start_time = get_time();
+		status_msg(program, &program->philos[0], MSG_FORK, WHITE);
+		my_usleep(program->time_to_die);
+		status_msg(program, &program->philos[0], MSG_DEAD, RESET);
+		free_program(program);
+		return;
+	}
 }
 
 // Check if all philosophers have eaten enough meals

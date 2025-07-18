@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:18:44 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/16 13:31:05 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/18 15:05:23 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 // Print a status message with the philosopher's ID and the message
 void	status_msg(t_program *program, t_philo *philo, char *msg, char *color)
 {
+	// printf("DEBUG: philo->start_time=%llu, get_time()=%llu, philo->id=%d\n",
+	// philo->start_time, get_time(), philo->id);
 	pthread_mutex_lock(&program->dead_lock);
 	if (strcmp(msg, MSG_DEAD) == 0)
 	{
