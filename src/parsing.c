@@ -6,13 +6,13 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 19:39:45 by maelgini          #+#    #+#             */
-/*   Updated: 2025/05/31 16:35:04 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:31:42 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-// Argument names for error messages
+// Macro array to map argument indices to their names
 static const char	*get_arg_name(int index)
 {
 	const char	*arg_names[] = {

@@ -6,14 +6,15 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:18:44 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/18 15:56:48 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:40:23 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 #include <string.h>
 
-// Print a status message with the philosopher's ID and the macroed message
+/*	Print a status message with the philosopher's ID and the macroed message 
+	and timestamp in ms for trackability */
 void	status_msg(t_program *program, t_philo *philo, char *msg, char *color)
 {
 	pthread_mutex_lock(&program->dead_lock);
@@ -32,7 +33,9 @@ void	status_msg(t_program *program, t_philo *philo, char *msg, char *color)
 	pthread_mutex_unlock(&program->dead_lock);
 }
 
-// Philosopher eats, locks the right and left forks, updates meal count and time
+/*	Declare a fork order so that the first lock will always be the smallest id 
+	Prints fork message then update philosopher's variables
+	Prints meal message then release forks */
 void	p_eat(t_philo *philo)
 {
 	t_program	*program = philo->program;
@@ -69,14 +72,14 @@ void	p_eat(t_philo *philo)
 	pthread_mutex_unlock(&program->meal_lock);
 }
 
-// Philosopher prints sleep message, and sleeps for the specified time
+// Prints sleep message, and sleeps for the specified time
 void	p_sleep(t_philo *philo)
 {
 	status_msg(philo->program, philo, MSG_SLEEP, BLUE);
 	my_usleep(philo->time_to_sleep);
 }
 
-// Philosopher prints think message
+// Prints think message and small sleep for busy waiting
 void	p_think(t_philo *philo)
 {
 	status_msg(philo->program, philo, MSG_THINK, GREEN);

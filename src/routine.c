@@ -6,13 +6,14 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:30:30 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/18 15:49:01 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/22 15:38:02 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-// Check if the simulation should stop
+/*	Check if the simulation should stop by looking at the stop flag
+	It will be updated by the monitor thread when a philosopher dies */
 int	sim_stop(t_program *program)
 {
 	int	stop;
@@ -23,7 +24,8 @@ int	sim_stop(t_program *program)
 	return (stop);
 }
 
-// Synchronize the start time for all philosophers
+/*	Shifts the start time of each philosopher to avoid simultaneous eating
+	Ensure that philosophers start at staggered times*/
 void	sync_start(long long start, t_philo *philo)
 {
 	long long	now;
@@ -46,7 +48,9 @@ void	sync_start(long long start, t_philo *philo)
 	}
 }
 
-// Main routine for each philosopher
+/*	Main routine for each philosopher, we call the sim_stop function between
+	each action to ensure the simulation stops instantly to avoid
+	philosophers finishing their cycle */
 void	*routine(void *arg)
 {
 	t_philo	*philo;
@@ -56,10 +60,8 @@ void	*routine(void *arg)
 	program = philo->program;
 
 	while (get_time() < philo->start_time)
-	{
-		sync_start(program->philos->start_time, program->philos);
-		usleep(100);
-	}
+		usleep(50);
+	sync_start(program->philos->start_time, program->philos);
 	while (!sim_stop(program))
 	{
 		p_eat(philo);
@@ -74,7 +76,7 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-// small routine for the 1-philosopher case
+// Small routine for the 1-philosopher case
 void	lone_philo_case(t_program *program)
 {
 	if (program->num_philos == 1)
@@ -88,7 +90,8 @@ void	lone_philo_case(t_program *program)
 	}
 }
 
-// Check if all philosophers have eaten enough meals
+/*	Check if all philosophers have eaten enough meals,
+	updates the ith philo's field */		
 int	all_philos_ate_enough(t_program *program)
 {
 	int	i;
@@ -109,7 +112,9 @@ int	all_philos_ate_enough(t_program *program)
 	return (1);
 }
 
-//Monitor thread that checks cases that should stop the simulation
+/*	Monitor thread that checks cases that should stop the simulation
+	if every philo ate number_of_times_each_philosopher_must_eat or
+	if a philo reached time_to_die */
 void	*monitor_routine(void *arg)
 {
 	int			i;
