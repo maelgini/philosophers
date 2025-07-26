@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:21:04 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/22 15:38:12 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/25 16:04:23 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ bool		check_args(int ac, char **av);
 
 //	routine.c
 int			sim_stop(t_program *program);
-void		sync_start(long long start, t_philo *philo);
 void		*routine(void *arg);
 void		*monitor_routine(void *arg);
 void		lone_philo_case(t_program *program);

@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 19:39:45 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/22 14:31:42 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/25 17:02:52 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static bool	validate_arg(char *arg, int i, int ac)
 		return (printf("Error: %s must be > 0\n", get_arg_name(i)), false);
 	return (true);
 }
-
 
 // Check if the number of arguments is correct and validate each argument
 bool	check_args(int ac, char **av)

@@ -4,8 +4,8 @@ CFLAGS		=	-Wall -Werror -Wextra
 
 SRC_DIR		=	src
 
-SRCS		=	src/threads.c src/utils.c src/main.c src/states.c src/routine.c \
-				src/parsing.c src/forks.c src/time.c \
+SRCS		=	src/threads.c src/utils.c src/main.c src/states.c src/states2.c \
+				src/routine.c src/parsing.c src/forks.c src/time.c src/monitor.c \
 
 OBJS		=	$(SRCS:.c=.o)
 

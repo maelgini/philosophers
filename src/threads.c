@@ -6,14 +6,14 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:15:48 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/22 14:42:17 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:25:36 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
 // Initializes mutexes for the program
-void init_mutexes(t_program *program)
+void	init_mutexes(t_program *program)
 {
 	pthread_mutex_init(&program->meal_lock, NULL);
 	pthread_mutex_init(&program->dead_lock, NULL);
@@ -22,7 +22,7 @@ void init_mutexes(t_program *program)
 }
 
 // Fills the philosopher structure with input values
-void init_input(int ac, char **av, t_program *program)
+void	init_input(int ac, char **av, t_program *program)
 {
 	program->num_philos = ft_atoi(av[1]);
 	program->time_to_die = ft_atoi(av[2]);
@@ -35,10 +35,10 @@ void init_input(int ac, char **av, t_program *program)
 }
 
 // Initializes the philosopher structure with default values
-void init_struct(t_program *program)
+void	init_struct(t_program *program)
 {
-	int i;
-	long long start_time;
+	int			i;
+	long long	start_time;
 
 	i = 0;
 	program->philos = malloc(sizeof(t_philo) * program->num_philos);
@@ -61,23 +61,24 @@ void init_struct(t_program *program)
 
 /*	Create threads for each philosopher and assigns them to the routine
 	Create monitor thread separately beforehand */
-void create_threads(t_program *program)
+void	create_threads(t_program *program)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	pthread_create(&program->monitor_thread, NULL, monitor_routine, program);
 	while (i < program->num_philos)
 	{
-		pthread_create(&program->philos[i].thread, NULL, routine, &program->philos[i]);
+		pthread_create(&program->philos[i].thread,
+			NULL, routine, &program->philos[i]);
 		i++;
 	}
 }
 
 // Joins all philosopher threads and the monitor thread
-void join_threads(t_program *program)
+void	join_threads(t_program *program)
 {
-	int i;
+	int	i;
 
 	pthread_join(program->monitor_thread, NULL);
 	i = 0;

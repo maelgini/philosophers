@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:08:33 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/22 16:37:56 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/25 17:02:31 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int ac, char **av)
 {
 	t_program	*program;
-	
+
 	program = malloc(sizeof(t_program));
 	if (!program)
 		return (1);

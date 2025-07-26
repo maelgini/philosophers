@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:56:35 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/22 14:43:27 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:26:32 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ bool	handle_lone_philo(t_program *program)
 }
 
 // Frees the allocated memory for philosophers and destroys mutexes
-void free_program(t_program *program)
+void	free_program(t_program *program)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	if (!program)
-		return;
+		return ;
 	if (program->forks)
 	{
 		while (i < program->num_philos)

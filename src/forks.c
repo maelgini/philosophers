@@ -6,7 +6,7 @@
 /*   By: maelgini <maelgini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:28:41 by maelgini          #+#    #+#             */
-/*   Updated: 2025/07/22 14:30:40 by maelgini         ###   ########.fr       */
+/*   Updated: 2025/07/25 17:02:21 by maelgini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	create_forks(t_program *program)
 {
 	int	i;
-	
+
 	program->forks = malloc(sizeof(pthread_mutex_t) * program->num_philos);
 	if (!program->forks)
 	{
@@ -39,7 +39,7 @@ void	create_forks(t_program *program)
 void	setup_forks(t_program *program)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < program->num_philos)
 	{
